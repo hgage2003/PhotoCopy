@@ -2,6 +2,7 @@
 *.app
 Makefile
 moc_*
+GeneratedFiles/
 ui_*
 *.o
 .vs/
