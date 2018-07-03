@@ -8,7 +8,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <QTDIR>C:\Qt\5.11.1\msvc2015</QTDIR>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3bC:\QT\5.11.1\MSVC2017_64\bin%3b$(PATH)%3bC:\_Kovalev\_Projects\exiv2-trunk\msvc\bin\x64\DebugDLL</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3bC:\QT\5.11.1\MSVC2015\bin%3b$(PATH)%3bC:\_Kovalev\_Projects\exiv2-trunk\msvc\bin\x64\DebugDLL</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QTDIR>C:\Qt\5.11.1\msvc2017_64</QTDIR>
