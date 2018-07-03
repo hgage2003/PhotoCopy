@@ -15,6 +15,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    const QIcon openIcon = QIcon::fromTheme("document-open");
+    QAction *actIn = new QAction(openIcon, tr("Выбрать..."), this);
+    connect(actIn, &QAction::triggered, this, &MainWindow::changeInDir);
+    ui->lePathIn->addAction(actIn, QLineEdit::TrailingPosition);
+
+    QAction *actOut = new QAction(openIcon, tr("Выбрать..."), this);
+    connect(actOut, &QAction::triggered, this, &MainWindow::changeOutDir);
+    ui->lePathOut->addAction(actOut, QLineEdit::TrailingPosition);
+
     ui->lePathIn->setText(QDir::homePath());
     ui->lePathOut->setText(QDir::homePath());
 }
@@ -29,7 +38,7 @@ void MainWindow::on_cbDeleteSrcs_stateChanged(int arg1)
     Q_UNUSED(arg1)
 }
 
-void MainWindow::on_pbChangeInDir_clicked()
+void MainWindow::changeInDir()
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
@@ -41,7 +50,7 @@ void MainWindow::on_pbChangeInDir_clicked()
     }
 }
 
-void MainWindow::on_pbChangeOutDir_clicked()
+void MainWindow::changeOutDir()
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
@@ -109,7 +118,7 @@ void MainWindow::on_pbStart_clicked()
       }
 
     QMessageBox msgBox;
-    msgBox.setText("Done!");
+    msgBox.setText(tr("Готово!"));
     msgBox.exec();
 }
 

@@ -1,4 +1,6 @@
 .*
+*.app
+Makefile
 moc_*
 ui_*
 *.o
