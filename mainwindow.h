@@ -22,9 +22,9 @@ private slots:
 
     void on_cbDeleteSrcs_stateChanged(int arg1);
 
-    void on_pbChangeInDir_clicked();
+    void changeInDir();
 
-    void on_pbChangeOutDir_clicked();
+    void changeOutDir();
 
     void on_pbCancel_clicked();
 

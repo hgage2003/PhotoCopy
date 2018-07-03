@@ -1,4 +1,11 @@
+.*
+*.app
+Makefile
+moc_*
+ui_*
+*.o
 .vs/
 Debug/
 Release/
 Win32/
+*.pro.user.*

@@ -15,6 +15,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    const QIcon openIcon = QIcon::fromTheme("document-open");
+    QAction *actIn = new QAction(openIcon, tr("Выбрать..."), this);
+    connect(actIn, &QAction::triggered, this, &MainWindow::changeInDir);
+    ui->lePathIn->addAction(actIn, QLineEdit::TrailingPosition);
+
+    QAction *actOut = new QAction(openIcon, tr("Выбрать..."), this);
+    connect(actOut, &QAction::triggered, this, &MainWindow::changeOutDir);
+    ui->lePathOut->addAction(actOut, QLineEdit::TrailingPosition);
+
     ui->lePathIn->setText(QDir::homePath());
     ui->lePathOut->setText(QDir::homePath());
 }
@@ -29,7 +38,7 @@ void MainWindow::on_cbDeleteSrcs_stateChanged(int arg1)
     Q_UNUSED(arg1)
 }
 
-void MainWindow::on_pbChangeInDir_clicked()
+void MainWindow::changeInDir()
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
@@ -41,7 +50,7 @@ void MainWindow::on_pbChangeInDir_clicked()
     }
 }
 
-void MainWindow::on_pbChangeOutDir_clicked()
+void MainWindow::changeOutDir()
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
@@ -74,12 +83,19 @@ void MainWindow::on_pbStart_clicked()
     foreach (QFileInfo info, fileInfos)
       if ( extensions.contains( info.completeSuffix(), Qt::CaseInsensitive ) )
       {
-		  std::wstring path = info.absoluteFilePath().toStdWString();         // <--- get the path
-		  Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);    // <--- open it
+          QString path = info.absoluteFilePath();
+
+          Exiv2::Image::AutoPtr image;
+
+#ifdef Q_OS_WIN
+          image = Exiv2::ImageFactory::open(path.toStdWString());
+#else
+          image = Exiv2::ImageFactory::open(path.toStdString());
+#endif
 
           if ( !image.get() ){
-              std::wstring error(path);
-              qDebug() << QString::fromStdWString(error) << ": Can not open image";
+              QString error(path);
+              qDebug() << error << ": Can not open image";
 			  continue;
           }
           image->readMetadata();
@@ -88,8 +104,8 @@ void MainWindow::on_pbStart_clicked()
 
           Exiv2::ExifData &exifData = image->exifData();
            if (exifData.empty()) {
-               std::wstring error(path);
-               qDebug() << QString::fromStdWString(error) << ": No Exif data found in the file";
+               QString error(path);
+               qDebug() << error << ": No Exif data found in the file";
                continue;
            }
 
@@ -98,11 +114,11 @@ void MainWindow::on_pbStart_clicked()
            //qDebug() << date;
            QStringList dateTime = date.split(QRegExp("[: ]"), QString::SkipEmptyParts);
 
-           SaveImage(QString::fromStdWString(path), dateTime);
+           SaveImage(path, dateTime);
       }
 
     QMessageBox msgBox;
-    msgBox.setText("Done!");
+    msgBox.setText(tr("Готово!"));
     msgBox.exec();
 }
 
@@ -134,11 +150,12 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 		' ' + dateTime[3] + '-' + dateTime[4] + '-' + dateTime[5];//path.section("/",-1,-1);
     filePath += '/' + fileName + '.' + fileExt;
 
-	bool bCopy;
-	if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
-		bCopy = QFile::rename(path, filePath);
-	else
-		bCopy = QFile::copy(path, filePath);
+    bool bCopy;
+
+    if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
+        bCopy = QFile::rename(path, filePath);
+    else
+        bCopy = QFile::copy(path, filePath);
 
     if (!bCopy){
         QString error(path);
