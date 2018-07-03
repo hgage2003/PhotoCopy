@@ -74,12 +74,19 @@ void MainWindow::on_pbStart_clicked()
     foreach (QFileInfo info, fileInfos)
       if ( extensions.contains( info.completeSuffix(), Qt::CaseInsensitive ) )
       {
-		  std::wstring path = info.absoluteFilePath().toStdWString();         // <--- get the path
-		  Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);    // <--- open it
+          QString path = info.absoluteFilePath();
+
+          Exiv2::Image::AutoPtr image;
+
+#ifdef Q_OS_WIN
+          image = Exiv2::ImageFactory::open(path.toStdWString());
+#else
+          image = Exiv2::ImageFactory::open(path.toStdString());
+#endif
 
           if ( !image.get() ){
-              std::wstring error(path);
-              qDebug() << QString::fromStdWString(error) << ": Can not open image";
+              QString error(path);
+              qDebug() << error << ": Can not open image";
 			  continue;
           }
           image->readMetadata();
@@ -88,8 +95,8 @@ void MainWindow::on_pbStart_clicked()
 
           Exiv2::ExifData &exifData = image->exifData();
            if (exifData.empty()) {
-               std::wstring error(path);
-               qDebug() << QString::fromStdWString(error) << ": No Exif data found in the file";
+               QString error(path);
+               qDebug() << error << ": No Exif data found in the file";
                continue;
            }
 
@@ -98,7 +105,7 @@ void MainWindow::on_pbStart_clicked()
            //qDebug() << date;
            QStringList dateTime = date.split(QRegExp("[: ]"), QString::SkipEmptyParts);
 
-           SaveImage(QString::fromStdWString(path), dateTime);
+           SaveImage(path, dateTime);
       }
 
     QMessageBox msgBox;
@@ -134,7 +141,12 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 		' ' + dateTime[3] + '-' + dateTime[4] + '-' + dateTime[5];//path.section("/",-1,-1);
     filePath += '/' + fileName + '.' + fileExt;
 
-    bool bCopy = QFile::copy(path, filePath);
+    bool bCopy;
+
+    if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
+        bCopy = QFile::rename(path, filePath);
+    else
+        bCopy = QFile::copy(path, filePath);
 
     if (!bCopy){
         QString error(path);
