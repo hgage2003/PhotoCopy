@@ -103,7 +103,7 @@ public:
 
         cbDeleteSrcs = new QCheckBox(centralWidget);
         cbDeleteSrcs->setObjectName(QStringLiteral("cbDeleteSrcs"));
-        cbDeleteSrcs->setEnabled(false);
+        cbDeleteSrcs->setEnabled(true);
 
         gridLayout->addWidget(cbDeleteSrcs, 4, 2, 1, 3);
 

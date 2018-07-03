@@ -79,7 +79,7 @@
     <item row="4" column="2" colspan="3">
      <widget class="QCheckBox" name="cbDeleteSrcs">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="text">
        <string>Удалять исходные</string>

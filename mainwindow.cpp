@@ -134,7 +134,11 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 		' ' + dateTime[3] + '-' + dateTime[4] + '-' + dateTime[5];//path.section("/",-1,-1);
     filePath += '/' + fileName + '.' + fileExt;
 
-    bool bCopy = QFile::copy(path, filePath);
+	bool bCopy;
+	if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
+		bCopy = QFile::rename(path, filePath);
+	else
+		bCopy = QFile::copy(path, filePath);
 
     if (!bCopy){
         QString error(path);
