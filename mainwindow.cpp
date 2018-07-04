@@ -15,14 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    const QIcon openIcon = QIcon::fromTheme("document-open");
-    QAction *actIn = new QAction(openIcon, tr("Выбрать..."), this);
-    connect(actIn, &QAction::triggered, this, &MainWindow::changeInDir);
-    ui->lePathIn->addAction(actIn, QLineEdit::TrailingPosition);
 
-    QAction *actOut = new QAction(openIcon, tr("Выбрать..."), this);
-    connect(actOut, &QAction::triggered, this, &MainWindow::changeOutDir);
-    ui->lePathOut->addAction(actOut, QLineEdit::TrailingPosition);
+    connect(ui->pbInDir, &QPushButton::clicked, this, &MainWindow::changeInDir);
+    connect(ui->pbOutDir, &QPushButton::clicked, this, &MainWindow::changeOutDir);
 
     ui->lePathIn->setText(QDir::homePath());
     ui->lePathOut->setText(QDir::homePath());
@@ -35,6 +30,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_cbDeleteSrcs_stateChanged(int arg1)
 {
+    //TODO: warning message
     Q_UNUSED(arg1)
 }
 
