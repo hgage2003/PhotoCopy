@@ -38,7 +38,7 @@ void MainWindow::changeInDir()
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
-    dialog.setDirectory(QDir::homePath());
+    dialog.setDirectory(ui->lePathIn->text());
     QStringList fileNames;
     if (dialog.exec()){
         fileNames = dialog.selectedFiles();
@@ -50,7 +50,7 @@ void MainWindow::changeOutDir()
 {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
-    dialog.setDirectory(QDir::homePath());
+    dialog.setDirectory(ui->lePathOut->text());
     QStringList fileNames;
     if (dialog.exec()){
         fileNames = dialog.selectedFiles();
@@ -143,20 +143,28 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 	QString fileExt = path.section(".", -1, -1);
 
 	QString fileName = dateTime[0] + '-' + dateTime[1] + '-' + dateTime[2] +
-		' ' + dateTime[3] + '-' + dateTime[4] + '-' + dateTime[5];//path.section("/",-1,-1);
-    filePath += '/' + fileName + '.' + fileExt;
+        ' ' + dateTime[3] + '-' + dateTime[4] + '-' + dateTime[5];
+    QString fullFilePath = filePath + '/' + fileName + '.' + fileExt;
+
+    if ( QFile::exists(fullFilePath) )
+    {
+        //TODO: compare
+        // if identical, check for move checkbox and delete original file if set
+        QString oldFileNameWithExt = path.section("/", -1, -1);
+        fullFilePath = filePath + '/' + fileName + '_' + oldFileNameWithExt;
+    }
 
     bool bCopy;
 
     if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
-        bCopy = QFile::rename(path, filePath);
+        bCopy = QFile::rename(path, fullFilePath);
     else
-        bCopy = QFile::copy(path, filePath);
+        bCopy = QFile::copy(path, fullFilePath);
 
     if (!bCopy){
         QString error(path);
         error += ": can not copy file to: ";
-        error += filePath;
+        error += fullFilePath;
         qDebug() << error;
         return -1;
     }
