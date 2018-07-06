@@ -91,8 +91,8 @@ void MainWindow::on_pbStart_clicked()
 #endif
 
           if ( !image.get() ){
-              QString error(path);
-              qDebug() << error << ": Can not open image";
+              QString error(Q_FUNC_INFO);
+              qDebug() << error << ": Can not open image: " << path;
 			  continue;
           }
           image->readMetadata();
@@ -101,8 +101,8 @@ void MainWindow::on_pbStart_clicked()
 
           Exiv2::ExifData &exifData = image->exifData();
            if (exifData.empty()) {
-               QString error(path);
-               qDebug() << error << ": No Exif data found in the file";
+               QString error(Q_FUNC_INFO);
+               qDebug() << error << ": No Exif data found in the file: " + path;
                continue;
            }
 
@@ -122,8 +122,8 @@ void MainWindow::on_pbStart_clicked()
 int MainWindow::SaveImage(QString path, QStringList dateTime)
 {
     if (dateTime.length() < 6){
-        QString error(path);
-        error += ": wrong dateTime in Exif: ";
+        QString error(Q_FUNC_INFO);
+        error += ": wrong dateTime in file:" + path + " Exif: ";
         error += dateTime.join(',');
         qDebug() << error;
         return -1;
@@ -134,7 +134,7 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 
     QDir d;
     if ( !d.mkpath(filePath) ){
-        QString error(path);
+        QString error(Q_FUNC_INFO);
         error += ": can not create path to file: ";
         error += filePath;
         qDebug() << error;
@@ -180,8 +180,8 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
         bCopy = QFile::copy(path, fullFilePath);
 
     if (!bCopy){
-        QString error(path);
-        error += ": can not copy file to: ";
+        QString error(Q_FUNC_INFO);
+        error += ": can not copy file:" + path + " to: ";
         error += fullFilePath;
         qDebug() << error;
         return -1;
