@@ -6,6 +6,7 @@
 #include <QMediaMetaData>
 #include <QDebug>
 #include <QMessageBox>
+#include <QCryptographicHash>
 
 #include <exiv2/exiv2.hpp>
 
@@ -148,8 +149,25 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 
     if ( QFile::exists(fullFilePath) )
     {
-        //TODO: compare
-        // if identical, check for move checkbox and delete original file if set
+        // compare sha1
+        QByteArray shaFrom = calcSha1(path);
+        QByteArray shaTo = calcSha1(fullFilePath);
+
+        // error opening
+        if ((shaFrom == QByteArray()) ||(shaTo == QByteArray()))
+            return -1;
+
+        // if identical
+        if (shaFrom == shaTo)
+        {
+            if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
+            {
+                QFile::remove(path);
+            }
+            return 0;
+        }
+
+        // if different
         QString oldFileNameWithExt = path.section("/", -1, -1);
         fullFilePath = filePath + '/' + fileName + '_' + oldFileNameWithExt;
     }
@@ -184,4 +202,22 @@ QFileInfoList MainWindow::fileInfosRecursive(QDir dir)
     }
 
     return fileInfos;
+}
+
+QByteArray MainWindow::calcSha1(QString pathToFile)
+{
+    QCryptographicHash hash(QCryptographicHash::Sha1);
+    QFile file(pathToFile);
+
+    if (file.open(QIODevice::ReadOnly)){
+        hash.addData(file.readAll());
+    }
+    else{
+        QString error(Q_FUNC_INFO);
+        error +=  ": can not open file " + pathToFile;
+        qDebug() << error;
+        return QByteArray();
+    }
+
+    return hash.result();
 }

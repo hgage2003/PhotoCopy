@@ -35,6 +35,8 @@ private:
 
     int SaveImage(QString path, QStringList dateTime);
     QFileInfoList fileInfosRecursive(QDir dir);
+    QByteArray calcSha1(QString pathToFile);
+
 };
 
 #endif // MAINWINDOW_H
