@@ -67,52 +67,55 @@ void MainWindow::on_pbCancel_clicked()
 void MainWindow::on_pbStart_clicked()
 {
     QDir inDir(ui->lePathIn->text());
+
+    QStringList extensions = ui->cbFileExt->currentText().split(QRegExp("[ ,]"),QString::SkipEmptyParts);
+
+    QStringList filters;
+    foreach (auto ext, extensions)
+        filters.append("*." + ext);
+
     QFileInfoList fileInfos;
 
     if ( ui->cbSubdirs->checkState() == Qt::Checked ){
-        fileInfos = fileInfosRecursive(inDir);
+        fileInfos = fileInfosRecursive(inDir, filters);
     }
     else
-        fileInfos = inDir.entryInfoList(QDir::Files);
+        fileInfos = inDir.entryInfoList(filters, QDir::Files, QDir::Name);
 
-    QStringList extensions = ui->cbFileExt->currentText().split(QRegExp("[ ,]"),QString::SkipEmptyParts); //(QStringList() << "JPG" << "JPEG");
+    foreach (auto info, fileInfos){
+        QString path = info.absoluteFilePath();
 
-    foreach (QFileInfo info, fileInfos)
-      if ( extensions.contains( info.completeSuffix(), Qt::CaseInsensitive ) )
-      {
-          QString path = info.absoluteFilePath();
-
-          Exiv2::Image::AutoPtr image;
+        Exiv2::Image::AutoPtr image;
 
 #ifdef Q_OS_WIN
-          image = Exiv2::ImageFactory::open(path.toStdWString());
+        image = Exiv2::ImageFactory::open(path.toStdWString());
 #else
-          image = Exiv2::ImageFactory::open(path.toStdString());
+        image = Exiv2::ImageFactory::open(path.toStdString());
 #endif
 
-          if ( !image.get() ){
-              QString error(Q_FUNC_INFO);
-              qDebug() << error << ": Can not open image: " << path;
-			  continue;
-          }
-          image->readMetadata();
+        if ( !image.get() ){
+            QString error(Q_FUNC_INFO);
+            qDebug() << error << ": Can not open image: " << path;
+            continue;
+        }
+        image->readMetadata();
 
-          //qDebug() << info.absoluteFilePath();
+        //qDebug() << info.absoluteFilePath();
 
-          Exiv2::ExifData &exifData = image->exifData();
-           if (exifData.empty()) {
-               QString error(Q_FUNC_INFO);
-               qDebug() << error << ": No Exif data found in the file: " + path;
-               continue;
-           }
+        Exiv2::ExifData &exifData = image->exifData();
+        if (exifData.empty()){
+            QString error(Q_FUNC_INFO);
+            qDebug() << error << ": No Exif data found in the file: " + path;
+            continue;
+        }
 
-           Exiv2::Exifdatum& tag = exifData["Exif.Photo.DateTimeOriginal"];
-           QString date = QString::fromStdString(tag.toString());
-           //qDebug() << date;
-           QStringList dateTime = date.split(QRegExp("[: ]"), QString::SkipEmptyParts);
+        Exiv2::Exifdatum& tag = exifData["Exif.Photo.DateTimeOriginal"];
+        QString date = QString::fromStdString(tag.toString());
+        //qDebug() << date;
+        QStringList dateTime = date.split(QRegExp("[: ]"), QString::SkipEmptyParts);
 
-           SaveImage(path, dateTime);
-      }
+        SaveImage(path, dateTime);
+   }
 
     QMessageBox msgBox;
     msgBox.setText(tr("Готово!"));
@@ -130,7 +133,12 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
     }
 
     QString LibPath = QDir::fromNativeSeparators(ui->lePathOut->text());
-	QString filePath = LibPath + "/PhotoCopy/" + dateTime[0] + '/' + dateTime[1];// +'/' + dateTime[2];
+
+    QString libFormat = ui->libraryFormat->currentText();
+    libFormat.replace("%Y",dateTime[0],Qt::CaseInsensitive);
+    libFormat.replace("%M",dateTime[1],Qt::CaseInsensitive);
+    libFormat.replace("%D",dateTime[2],Qt::CaseInsensitive);
+    QString filePath = LibPath + '/' + libFormat;
 
     QDir d;
     if ( !d.mkpath(filePath) ){
@@ -190,15 +198,15 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
     return 0;
 }
 
-QFileInfoList MainWindow::fileInfosRecursive(QDir dir)
+QFileInfoList MainWindow::fileInfosRecursive(QDir dir, QStringList filters)
 {
-    QFileInfoList fileInfos = dir.entryInfoList(QDir::Files);
+    QFileInfoList fileInfos = dir.entryInfoList(filters, QDir::Files, QDir::Name);
 
-    QFileInfoList dirInfos = dir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot);
+    QFileInfoList dirInfos = dir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::Name);
 
     foreach (QFileInfo dirInfo, dirInfos){
         QDir dir(dirInfo.absoluteFilePath());
-        fileInfos += fileInfosRecursive(dir);
+        fileInfos += fileInfosRecursive(dir, filters);
     }
 
     return fileInfos;

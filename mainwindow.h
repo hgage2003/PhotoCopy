@@ -34,7 +34,7 @@ private:
     Ui::MainWindow *ui;
 
     int SaveImage(QString path, QStringList dateTime);
-    QFileInfoList fileInfosRecursive(QDir dir);
+    QFileInfoList fileInfosRecursive(QDir dir, QStringList filters);
     QByteArray calcSha1(QString pathToFile);
 
 };
