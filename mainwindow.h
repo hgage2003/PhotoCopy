@@ -37,6 +37,8 @@ private:
     QFileInfoList fileInfosRecursive(QDir dir, QStringList filters);
     QByteArray calcSha1(QString pathToFile);
 
+    void loadSettings();
+    void saveSettings();
 };
 
 #endif // MAINWINDOW_H

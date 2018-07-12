@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QCryptographicHash>
+#include <QSettings>
 
 #include <exiv2/exiv2.hpp>
 
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->lePathIn->setText(QDir::homePath());
     ui->lePathOut->setText(QDir::homePath());
+
+    loadSettings();
 }
 
 MainWindow::~MainWindow()
@@ -31,8 +34,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_cbDeleteSrcs_stateChanged(int arg1)
 {
-    //TODO: warning message
-    Q_UNUSED(arg1)
+    if (arg1)
+        if (QMessageBox::critical(this, tr("Внимание"),
+            tr("Вы потеряете исходные названия файлов!\n"
+               "Есть риск потерять и сами файлы. Продолжить?"),
+                           QMessageBox::Yes|QMessageBox::No) != QMessageBox::Yes)
+            ui->cbDeleteSrcs->setCheckState(Qt::Unchecked);
 }
 
 void MainWindow::changeInDir()
@@ -61,11 +68,13 @@ void MainWindow::changeOutDir()
 
 void MainWindow::on_pbCancel_clicked()
 {
+    saveSettings();
     this->close();
 }
 
 void MainWindow::on_pbStart_clicked()
 {
+    saveSettings();
     QDir inDir(ui->lePathIn->text());
 
     QStringList extensions = ui->cbFileExt->currentText().split(QRegExp("[ ,]"),QString::SkipEmptyParts);
@@ -117,9 +126,7 @@ void MainWindow::on_pbStart_clicked()
         SaveImage(path, dateTime);
    }
 
-    QMessageBox msgBox;
-    msgBox.setText(tr("Готово!"));
-    msgBox.exec();
+    QMessageBox::information(this, "", tr("Готово"));
 }
 
 int MainWindow::SaveImage(QString path, QStringList dateTime)
@@ -134,7 +141,7 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 
     QString LibPath = QDir::fromNativeSeparators(ui->lePathOut->text());
 
-    QString libFormat = ui->libraryFormat->currentText();
+    QString libFormat = ui->cbLibraryFormat->currentText();
     libFormat.replace("%Y",dateTime[0],Qt::CaseInsensitive);
     libFormat.replace("%M",dateTime[1],Qt::CaseInsensitive);
     libFormat.replace("%D",dateTime[2],Qt::CaseInsensitive);
@@ -228,4 +235,40 @@ QByteArray MainWindow::calcSha1(QString pathToFile)
     }
 
     return hash.result();
+}
+
+void MainWindow::loadSettings()
+{
+    QSettings settings("hgage2003", "PhotoCopy");
+    settings.beginGroup("mainwindow");
+    QString str = settings.value("extensions", "").toString();
+    if (str != "")
+        ui->cbFileExt->setCurrentText(str);
+    str = settings.value("inpath", "").toString();
+    if (str != "")
+        ui->lePathIn->setText(str);
+    str = settings.value("outpath", "").toString();
+    if (str != "")
+        ui->lePathOut->setText(str);
+    str = settings.value("libformat", "").toString();
+    if (str != "")
+        ui->cbLibraryFormat->setCurrentText(str);
+    bool b = settings.value("isSubdirs", false).toBool();
+    if (b)
+        ui->cbSubdirs->setChecked(true);
+    settings.endGroup();
+}
+
+void MainWindow::saveSettings()
+{
+    QSettings settings("hgage2003", "PhotoCopy");
+    settings.beginGroup("mainwindow");
+
+    settings.setValue("extensions", ui->cbFileExt->currentText());
+    settings.setValue("inpath", ui->lePathIn->text());
+    settings.setValue("outpath", ui->lePathOut->text());
+    settings.setValue("libformat", ui->cbLibraryFormat->currentText());
+    settings.setValue("isSubdirs", ui->cbSubdirs->isChecked());
+
+    settings.endGroup();
 }
