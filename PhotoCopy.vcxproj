@@ -106,7 +106,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\_Kovalev\_Projects\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:/MinGW/msys/1.0/local/include;..\..\..\QT\5.11.1\MSVC2017_64\include;..\..\..\QT\5.11.1\MSVC2017_64\include\QtMultimedia;..\..\..\QT\5.11.1\MSVC2017_64\include\QtWidgets;..\..\..\QT\5.11.1\MSVC2017_64\include\QtGui;..\..\..\QT\5.11.1\MSVC2017_64\include\QtANGLE;..\..\..\QT\5.11.1\MSVC2017_64\include\QtNetwork;..\..\..\QT\5.11.1\MSVC2017_64\include\QtCore;release;\include;..\..\..\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;c:\QT\5.11.1\MSVC2017_64\include;c:\QT\5.11.1\MSVC2017_64\include\QtMultimedia;c:\QT\5.11.1\MSVC2017_64\include\QtWidgets;c:\QT\5.11.1\MSVC2017_64\include\QtGui;c:\QT\5.11.1\MSVC2017_64\include\QtANGLE;c:\QT\5.11.1\MSVC2017_64\include\QtNetwork;c:\QT\5.11.1\MSVC2017_64\include\QtCore;release;\include;c:\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -126,7 +126,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>C:\QT\5.11.1\MSVC2017_64\lib\qtmain.lib;shell32.lib;libexiv2.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Multimedia.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Widgets.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Gui.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Network.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\_Kovalev\_Projects\exiv2-trunk\msvc\bin\x64\ReleaseDLL;C:\QT\5.11.1\MSVC2017_64\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.6.11-winx64\lib;C:\Utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\exiv2-trunk\msvc\bin\x64\ReleaseDLL;C:\QT\5.11.1\MSVC2017_64\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -149,7 +149,7 @@
       <QTDIR>$(QTDIR)</QTDIR>
       <InputFile>%(FullPath)</InputFile>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <IncludePath>C:\_Kovalev\_Projects\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:/MinGW/msys/1.0/local/include;..\..\..\QT\5.11.1\MSVC2017_64\include;..\..\..\QT\5.11.1\MSVC2017_64\include\QtMultimedia;..\..\..\QT\5.11.1\MSVC2017_64\include\QtWidgets;..\..\..\QT\5.11.1\MSVC2017_64\include\QtGui;..\..\..\QT\5.11.1\MSVC2017_64\include\QtANGLE;..\..\..\QT\5.11.1\MSVC2017_64\include\QtNetwork;..\..\..\QT\5.11.1\MSVC2017_64\include\QtCore;release;\include;..\..\..\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;c:\QT\5.11.1\MSVC2017_64\include;c:\QT\5.11.1\MSVC2017_64\include\QtMultimedia;c:\QT\5.11.1\MSVC2017_64\include\QtWidgets;c:\QT\5.11.1\MSVC2017_64\include\QtGui;c:\QT\5.11.1\MSVC2017_64\include\QtANGLE;c:\QT\5.11.1\MSVC2017_64\include\QtNetwork;c:\QT\5.11.1\MSVC2017_64\include\QtCore;release;\include;c:\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_DEPRECATED_WARNINGS;QT_NO_DEBUG;QT_MULTIMEDIA_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NDEBUG</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>$(Configuration)/moc_predefs.h</Include>
@@ -165,7 +165,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\..\QT\5.11.1\MSVC2017_64\include;..\..\..\QT\5.11.1\MSVC2017_64\include\QtMultimedia;..\..\..\QT\5.11.1\MSVC2017_64\include\QtWidgets;..\..\..\QT\5.11.1\MSVC2017_64\include\QtGui;..\..\..\QT\5.11.1\MSVC2017_64\include\QtANGLE;..\..\..\QT\5.11.1\MSVC2017_64\include\QtNetwork;..\..\..\QT\5.11.1\MSVC2017_64\include\QtCore;release;\include;..\..\..\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;c:\QT\5.11.1\MSVC2015\include;c:\QT\5.11.1\MSVC2015\include\QtMultimedia;c:\QT\5.11.1\MSVC2015\include\QtWidgets;c:\QT\5.11.1\MSVC2015\include\QtGui;c:\QT\5.11.1\MSVC2015\include\QtANGLE;c:\QT\5.11.1\MSVC2015\include\QtNetwork;c:\QT\5.11.1\MSVC2015\include\QtCore;release;\include;..\..\..\QT\5.11.1\MSVC2015\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -208,7 +208,7 @@
       <QTDIR>$(QTDIR)</QTDIR>
       <InputFile>%(FullPath)</InputFile>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <IncludePath>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;..\..\..\QT\5.11.1\MSVC2017_64\include;..\..\..\QT\5.11.1\MSVC2017_64\include\QtMultimedia;..\..\..\QT\5.11.1\MSVC2017_64\include\QtWidgets;..\..\..\QT\5.11.1\MSVC2017_64\include\QtGui;..\..\..\QT\5.11.1\MSVC2017_64\include\QtANGLE;..\..\..\QT\5.11.1\MSVC2017_64\include\QtNetwork;..\..\..\QT\5.11.1\MSVC2017_64\include\QtCore;release;\include;..\..\..\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;c:\QT\5.11.1\MSVC2015\include;c:\QT\5.11.1\MSVC2015\include\QtMultimedia;c:\QT\5.11.1\MSVC2015\include\QtWidgets;c:\QT\5.11.1\MSVC2015\include\QtGui;c:\QT\5.11.1\MSVC2015\include\QtANGLE;c:\QT\5.11.1\MSVC2015\include\QtNetwork;c:\QT\5.11.1\MSVC2015\include\QtCore;release;\include;..\..\..\QT\5.11.1\MSVC2015\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_DEPRECATED_WARNINGS;QT_NO_DEBUG;QT_MULTIMEDIA_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NDEBUG</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>$(Configuration)/moc_predefs.h</Include>
@@ -224,7 +224,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\_Kovalev\_Projects\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:/MinGW/msys/1.0/local/include;..\..\..\QT\5.11.1\MSVC2017_64\include;..\..\..\QT\5.11.1\MSVC2017_64\include\QtMultimedia;..\..\..\QT\5.11.1\MSVC2017_64\include\QtWidgets;..\..\..\QT\5.11.1\MSVC2017_64\include\QtGui;..\..\..\QT\5.11.1\MSVC2017_64\include\QtANGLE;..\..\..\QT\5.11.1\MSVC2017_64\include\QtNetwork;..\..\..\QT\5.11.1\MSVC2017_64\include\QtCore;debug;\include;..\..\..\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;c:\QT\5.11.1\MSVC2017_64\include;c:\QT\5.11.1\MSVC2017_64\include\QtMultimedia;c:\QT\5.11.1\MSVC2017_64\include\QtWidgets;c:\QT\5.11.1\MSVC2017_64\include\QtGui;c:\QT\5.11.1\MSVC2017_64\include\QtANGLE;c:\QT\5.11.1\MSVC2017_64\include\QtNetwork;c:\QT\5.11.1\MSVC2017_64\include\QtCore;debug;\include;c:\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -244,7 +244,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>C:\QT\5.11.1\MSVC2017_64\lib\qtmaind.lib;shell32.lib;libexiv2.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Multimediad.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Widgetsd.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Guid.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Networkd.lib;C:\QT\5.11.1\MSVC2017_64\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\_Kovalev\_Projects\exiv2-trunk\msvc\bin\x64\DebugDLL;C:\QT\5.11.1\MSVC2017_64\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.6.11-winx64\lib;C:\Utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\exiv2-trunk\msvc\bin\x64\DebugDLL;C:\QT\5.11.1\MSVC2017_64\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -266,7 +266,7 @@
       <QTDIR>$(QTDIR)</QTDIR>
       <InputFile>%(FullPath)</InputFile>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <IncludePath>C:\_Kovalev\_Projects\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:/MinGW/msys/1.0/local/include;..\..\..\QT\5.11.1\MSVC2017_64\include;..\..\..\QT\5.11.1\MSVC2017_64\include\QtMultimedia;..\..\..\QT\5.11.1\MSVC2017_64\include\QtWidgets;..\..\..\QT\5.11.1\MSVC2017_64\include\QtGui;..\..\..\QT\5.11.1\MSVC2017_64\include\QtANGLE;..\..\..\QT\5.11.1\MSVC2017_64\include\QtNetwork;..\..\..\QT\5.11.1\MSVC2017_64\include\QtCore;debug;\include;..\..\..\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>..\exiv2-trunk\include;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;c:\QT\5.11.1\MSVC2017_64\include;c:\QT\5.11.1\MSVC2017_64\include\QtMultimedia;c:\QT\5.11.1\MSVC2017_64\include\QtWidgets;c:\QT\5.11.1\MSVC2017_64\include\QtGui;c:\QT\5.11.1\MSVC2017_64\include\QtANGLE;c:\QT\5.11.1\MSVC2017_64\include\QtNetwork;c:\QT\5.11.1\MSVC2017_64\include\QtCore;debug;\include;c:\QT\5.11.1\MSVC2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_DEPRECATED_WARNINGS;QT_MULTIMEDIA_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_CORE_LIB</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>$(Configuration)/moc_predefs.h</Include>
