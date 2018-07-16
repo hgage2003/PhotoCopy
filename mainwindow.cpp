@@ -140,10 +140,15 @@ void MainWindow::on_pbStart_clicked()
 
 int MainWindow::SaveImage(QString path, QStringList dateTime)
 {
-    bool ok;
-    int year = dateTime[0].toInt(&ok);
+    bool ok = false;
+    if (dateTime.length() >= 1)
+    {
+        int year = dateTime[0].toInt(&ok);
+        if (ok && (year < 1900))
+            ok = false;
+    }
 
-    if ((dateTime.length() < 6) || !ok || (year < 1900)){
+    if ((dateTime.length() < 6) || !ok){
         QString error(Q_FUNC_INFO);
         error += ": wrong dateTime in file:" + path + " Exif: ";
         error += dateTime.join(',');
