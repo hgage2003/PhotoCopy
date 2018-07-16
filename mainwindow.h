@@ -35,6 +35,7 @@ private:
 
     int SaveImage(QString path, QStringList dateTime);
     QFileInfoList fileInfosRecursive(QDir dir, QStringList filters);
+    void DeleteEmptyFoldersRecursive(QDir dir);
     QByteArray calcSha1(QString pathToFile);
 
     void loadSettings();

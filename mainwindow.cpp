@@ -39,7 +39,7 @@ void MainWindow::on_cbDeleteSrcs_stateChanged(int arg1)
             tr("Вы потеряете исходные названия файлов!\n"
                "Есть риск потерять и сами файлы. Продолжить?"),
                            QMessageBox::Yes|QMessageBox::No) != QMessageBox::Yes)
-            ui->cbDeleteSrcs->setCheckState(Qt::Unchecked);
+            ui->cbDeleteSrcs->setChecked(false);
 }
 
 void MainWindow::changeInDir()
@@ -85,7 +85,7 @@ void MainWindow::on_pbStart_clicked()
 
     QFileInfoList fileInfos;
 
-    if ( ui->cbSubdirs->checkState() == Qt::Checked ){
+    if ( ui->cbSubdirs->isChecked() ){
         fileInfos = fileInfosRecursive(inDir, filters);
     }
     else
@@ -126,12 +126,24 @@ void MainWindow::on_pbStart_clicked()
         SaveImage(path, dateTime);
    }
 
-    QMessageBox::information(this, "", tr("Готово"));
+   // Удаляем пустые папки
+   if (ui->cbDeleteSrcs->isChecked()){
+       if ( ui->cbSubdirs->isChecked() )
+           DeleteEmptyFoldersRecursive(inDir);
+       else
+           if (inDir.isEmpty())
+               inDir.rmdir(inDir.absolutePath());
+   }
+
+   QMessageBox::information(this, "", tr("Готово"));
 }
 
 int MainWindow::SaveImage(QString path, QStringList dateTime)
 {
-    if (dateTime.length() < 6){
+    bool ok;
+    int year = dateTime[0].toInt(&ok);
+
+    if ((dateTime.length() < 6) || !ok || (year < 1900)){
         QString error(Q_FUNC_INFO);
         error += ": wrong dateTime in file:" + path + " Exif: ";
         error += dateTime.join(',');
@@ -175,7 +187,7 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
         // if identical
         if (shaFrom == shaTo)
         {
-            if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
+            if (ui->cbDeleteSrcs->isChecked())
             {
                 QFile::remove(path);
             }
@@ -189,7 +201,7 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
 
     bool bCopy;
 
-    if (ui->cbDeleteSrcs->checkState() == Qt::Checked)
+    if (ui->cbDeleteSrcs->isChecked())
         bCopy = QFile::rename(path, fullFilePath);
     else
         bCopy = QFile::copy(path, fullFilePath);
@@ -212,11 +224,27 @@ QFileInfoList MainWindow::fileInfosRecursive(QDir dir, QStringList filters)
     QFileInfoList dirInfos = dir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::Name);
 
     foreach (QFileInfo dirInfo, dirInfos){
-        QDir dir(dirInfo.absoluteFilePath());
-        fileInfos += fileInfosRecursive(dir, filters);
+        QDir incDir(dirInfo.absoluteFilePath());
+        fileInfos += fileInfosRecursive(incDir, filters);
     }
 
     return fileInfos;
+}
+
+void MainWindow::DeleteEmptyFoldersRecursive(QDir dir)
+{
+    qDebug() << "checking " << dir.absolutePath();
+    QFileInfoList dirInfos = dir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::Name);
+    foreach (QFileInfo dirInfo, dirInfos){
+        QDir incDir(dirInfo.absoluteFilePath());
+        DeleteEmptyFoldersRecursive(incDir);
+    }
+
+    if (dir.isEmpty()){
+        qDebug() << "deleting " << dir.absolutePath();
+        dir.rmdir(dir.absolutePath());
+        return;
+    }
 }
 
 QByteArray MainWindow::calcSha1(QString pathToFile)
