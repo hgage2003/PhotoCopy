@@ -238,7 +238,6 @@ QFileInfoList MainWindow::fileInfosRecursive(QDir dir, QStringList filters)
 
 void MainWindow::DeleteEmptyFoldersRecursive(QDir dir)
 {
-    qDebug() << "checking " << dir.absolutePath();
     QFileInfoList dirInfos = dir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot, QDir::Name);
     foreach (QFileInfo dirInfo, dirInfos){
         QDir incDir(dirInfo.absoluteFilePath());
@@ -246,8 +245,9 @@ void MainWindow::DeleteEmptyFoldersRecursive(QDir dir)
     }
 
     if (dir.isEmpty()){
-        qDebug() << "deleting " << dir.absolutePath();
-        dir.rmdir(dir.absolutePath());
+        bool success = dir.removeRecursively();
+        if (!success)
+            qDebug() << "cant delete " << dir.absolutePath();
         return;
     }
 }
