@@ -32,9 +32,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_cbDeleteSrcs_stateChanged(int arg1)
+void MainWindow::on_cbDeleteSrcs_clicked()
 {
-    if (arg1)
+    if (ui->cbDeleteSrcs->isChecked())
         if (QMessageBox::critical(this, tr("Внимание"),
             tr("Вы потеряете исходные названия файлов!\n"
                "Есть риск потерять и сами файлы. Продолжить?"),

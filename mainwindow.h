@@ -20,7 +20,7 @@ public:
 
 private slots:
 
-    void on_cbDeleteSrcs_stateChanged(int arg1);
+    void on_cbDeleteSrcs_clicked();
 
     void changeInDir();
 
