@@ -156,6 +156,15 @@ int MainWindow::SaveImage(QString path, QStringList dateTime)
         return -1;
     }
 
+    // Normalize numbers
+    // skip year
+    for (int i = 1; i < dateTime.length(); i++){
+        bool ok = false;
+        qint32 num = dateTime[i].toInt(&ok);
+        if (ok)
+            dateTime[i] = QString("%1").arg(num, 2, 10, QLatin1Char('0'));
+    }
+
     QString LibPath = QDir::fromNativeSeparators(ui->lePathOut->text());
 
     QString libFormat = ui->cbLibraryFormat->currentText();
